@@ -83,7 +83,7 @@ export async function fetchLeagueRoster(league: League): Promise<RosterResponse>
     }
 
     // Dedupe and clean
-    const unique = [...new Set(allPlayers)].filter((n) => n && n.length > 2)
+    const unique = Array.from(new Set(allPlayers)).filter((n) => n && n.length > 2)
 
     if (unique.length < 20) {
       // Not enough players fetched, fall back
