@@ -51,13 +51,16 @@ async function fetchRosterForTeam(league: League, teamId: number): Promise<strin
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const groups = data?.athletes ?? []
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    groups.forEach((group: any) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ;(group?.items ?? []).forEach((a: any) => {
-        const name = a?.fullName ?? a?.displayName
-        if (name) players.push(name)
-      })
-    })
+const NFL_POSITIONS = new Set(['QB','RB','WR','TE','FB','K'])
+const NBA_POSITIONS = new Set(['PG','SG','SF','PF','C','G','F'])
+const validPos = league === 'nfl' ? NFL_POSITIONS : NBA_POSITIONS
+groups.forEach((group: any) => {
+  ;(group?.items ?? []).forEach((a: any) => {
+    const name = a?.fullName ?? a?.displayName
+    const pos = a?.position?.abbreviation ?? ''
+    if (name && validPos.has(pos)) players.push(name)
+  })
+})
   }
 
   rosterCache[cacheKey] = { players, ts: Date.now() }
