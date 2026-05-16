@@ -6,11 +6,9 @@ import { useState } from 'react'
  * First match wins. Your full hero art: `public/assets/genie/Untitled.PNG`, then JPG fallbacks.
  */
 const HERO_POSTER_SOURCES = [
-  '/assets/genie/genie-logo-new.png',
+  '/assets/genie/genie-logo-new.PNG',
   '/assets/genie/mascot.png',
-  '/assets/genie/Untitled-Photoroom-2.png',
   '/assets/genie/Untitled.PNG',
-  '/assets/genie/Untitled.png',
 ] as const
 
 function useFirstAvailableSrc(sources: readonly string[]) {
