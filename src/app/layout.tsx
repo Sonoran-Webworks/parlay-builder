@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/react'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import StarField from '@/components/StarField'
 import './globals.css'
 
@@ -34,6 +35,7 @@ export default function RootLayout({
         <StarField fixed />
         {children}
         <Analytics />
+        <GoogleAnalytics gaId="G-YTTG5J8XZR" />
       </body>
     </html>
   )
