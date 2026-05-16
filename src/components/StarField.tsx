@@ -72,19 +72,20 @@ export default function StarField({ className, fixed }: { className?: string; fi
     function draw(t: number) {
       if (!ctx) return
 
-      // Background gradient: near-black → deep purple
+      // Background gradient: hero stays near-black (matches genie image edges), then blooms purple in generator area
       const bg = ctx.createLinearGradient(0, 0, 0, h)
-      bg.addColorStop(0, '#050508')
-      bg.addColorStop(0.42, '#0a0520')
-      bg.addColorStop(0.76, '#14073a')
-      bg.addColorStop(1, '#1e0848')
+      bg.addColorStop(0,    '#050508')   // top — exact genie edge color, edges are invisible
+      bg.addColorStop(0.30, '#060609')   // still very dark through hero
+      bg.addColorStop(0.50, '#0d0428')   // transition begins around hero/generator boundary
+      bg.addColorStop(0.72, '#1a0750')   // deepening purple in generator section
+      bg.addColorStop(1,    '#2d0e78')   // rich purple at page bottom
       ctx.fillStyle = bg
       ctx.fillRect(0, 0, w, h)
 
-      // Soft nebula glow blooming from lower-center
-      const nebula = ctx.createRadialGradient(w * 0.5, h * 1.05, 0, w * 0.5, h * 0.8, w * 0.65)
-      nebula.addColorStop(0, 'rgba(110, 30, 230, 0.2)')
-      nebula.addColorStop(0.5, 'rgba(80, 15, 160, 0.09)')
+      // Nebula glow shifted into lower half — reinforces the purple generator zone
+      const nebula = ctx.createRadialGradient(w * 0.5, h * 1.1, 0, w * 0.5, h * 0.82, w * 0.72)
+      nebula.addColorStop(0, 'rgba(120, 30, 245, 0.22)')
+      nebula.addColorStop(0.45, 'rgba(85, 15, 170, 0.10)')
       nebula.addColorStop(1, 'rgba(0,0,0,0)')
       ctx.fillStyle = nebula
       ctx.fillRect(0, 0, w, h)

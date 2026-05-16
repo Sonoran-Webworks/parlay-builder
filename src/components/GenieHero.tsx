@@ -6,11 +6,11 @@ import { useState } from 'react'
  * First match wins. Your full hero art: `public/assets/genie/Untitled.PNG`, then JPG fallbacks.
  */
 const HERO_POSTER_SOURCES = [
+  '/assets/genie/genie-logo-new.png',
+  '/assets/genie/mascot.png',
+  '/assets/genie/Untitled-Photoroom-2.png',
   '/assets/genie/Untitled.PNG',
   '/assets/genie/Untitled.png',
-  '/genie-logo.jpg',
-  '/genie-hero.jpg',
-  '/genie-cash.jpg',
 ] as const
 
 function useFirstAvailableSrc(sources: readonly string[]) {
@@ -43,8 +43,8 @@ function HeroPoster({ sources, alt }: { sources: readonly string[]; alt: string 
         key={src}
         src={src}
         alt={alt}
-        width={689}
-        height={930}
+        width={1080}
+        height={1080}
         className="absolute inset-0 h-full w-full object-contain object-center select-none"
         style={{ mixBlendMode: 'screen' }}
         loading="eager"
@@ -61,17 +61,9 @@ function HeroPoster({ sources, alt }: { sources: readonly string[]; alt: string 
 function GenieHeroPoster() {
   return (
     <div className="relative flex w-full flex-1 justify-center lg:justify-end lg:pr-2">
-      <div className="relative w-full max-w-[min(560px,94vw)] lg:max-w-[min(580px,48vw)]">
-        <div className="relative mx-auto aspect-[689/930] w-full max-h-[min(44vw,220px)] min-h-[160px] sm:min-h-[min(48vh,400px)] sm:max-h-[min(74vh,640px)] md:min-h-[min(56vh,500px)] md:max-h-[min(82vh,760px)]">
-          <div
-            className="absolute inset-0 z-10"
-            style={{
-              maskImage:
-                'radial-gradient(ellipse 88% 84% at 50% 46%, black 55%, rgba(0,0,0,0.6) 72%, rgba(0,0,0,0.15) 86%, transparent 96%)',
-              WebkitMaskImage:
-                'radial-gradient(ellipse 88% 84% at 50% 46%, black 55%, rgba(0,0,0,0.6) 72%, rgba(0,0,0,0.15) 86%, transparent 96%)',
-            }}
-          >
+      <div className="relative w-full max-w-[min(80vw,280px)] sm:max-w-[min(80vw,420px)] lg:max-w-[min(46vw,560px)]">
+        <div className="relative mx-auto aspect-square w-full">
+          <div className="absolute inset-0 z-10">
             <HeroPoster sources={HERO_POSTER_SOURCES} alt="Parlay Genie" />
           </div>
         </div>
@@ -85,7 +77,7 @@ export default function GenieHero() {
 
   return (
     <section
-      className="relative min-h-0 overflow-hidden text-zinc-100 max-sm:pb-4 sm:min-h-[min(100svh,920px)]"
+      className="relative min-h-0 overflow-hidden text-zinc-100 max-sm:pb-4 sm:min-h-[min(62vh,580px)]"
       aria-labelledby="genie-hero-heading"
     >
       <div
@@ -106,7 +98,7 @@ export default function GenieHero() {
         aria-hidden
       />
 
-      <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-8 px-4 pb-6 pt-6 max-sm:gap-4 sm:gap-12 sm:px-6 sm:pb-16 sm:pt-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:pb-20 lg:pt-16">
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-4 px-4 pb-4 pt-4 max-sm:gap-3 sm:gap-8 sm:px-6 sm:pb-8 sm:pt-6 lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:pb-10 lg:pt-10">
         <div className="max-w-xl lg:pb-8">
           <p className="mb-3 font-sans text-xs font-semibold uppercase tracking-[0.35em] text-cyan-300/90">
             Parlay Genie
