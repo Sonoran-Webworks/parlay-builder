@@ -1,6 +1,13 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/react'
+import StarField from '@/components/StarField'
 import './globals.css'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
 
 export const metadata: Metadata = {
   title: 'The Parlay Genie – Random Prop Parlay Generator',
@@ -21,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <StarField fixed />
         {children}
         <Analytics />
       </body>
