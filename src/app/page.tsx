@@ -6,6 +6,7 @@ import { LEAGUE_DATA } from '@/lib/propData'
 import { generateParlay, formatOdds, formatAmerican, oddsClass, calcParlayAmerican, toDecimal } from '@/lib/parlayEngine'
 import { useRoster } from '@/hooks/useRoster'
 import AdSlot from '@/components/AdSlot'
+import GenieHero from '@/components/GenieHero'
 import styles from './page.module.css'
 
 const LEAGUES: League[] = ['mlb', 'nfl', 'nba', 'nhl']
@@ -76,13 +77,15 @@ export default function Home() {
   const tiers = LEAGUE_DATA[league].props[propKey]?.tiers ?? []
 
   return (
-    <main className={styles.main}>
-      <div className={styles.container}>
+    <>
+      <GenieHero />
+      <main className={styles.main} id="generator">
+        <div className={styles.container}>
 
         {/* Header */}
         <div className={styles.header}>
           <div>
-            <h1 className={styles.title}>Parlay Builder</h1>
+            <h2 className={styles.title}>Parlay Builder</h2>
             <p className={styles.sub}>Random prop parlay generator</p>
           </div>
           <span className={styles.badge}>For entertainment</span>
@@ -97,6 +100,7 @@ export default function Home() {
           <div className={styles.leagueGrid}>
             {LEAGUES.map((l) => (
               <button
+                type="button"
                 key={l}
                 className={`${styles.leagueBtn} ${league === l ? styles.active : ''}`}
                 onClick={() => handleLeagueChange(l)}
@@ -151,6 +155,7 @@ export default function Home() {
           <div className={styles.fmtRow}>
             {(['american', 'decimal'] as OddsFormat[]).map((f) => (
               <button
+                type="button"
                 key={f}
                 className={`${styles.fmtBtn} ${oddsFormat === f ? styles.active : ''}`}
                 onClick={() => setOddsFormat(f)}
@@ -193,8 +198,9 @@ export default function Home() {
         </div>
 
         {/* Generate button */}
-        <button className={styles.genBtn} onClick={handleGenerate}>
-          Generate Random Parlay
+        <button type="button" className={styles.genBtn} onClick={handleGenerate}>
+          <span aria-hidden>🧞</span>
+          Grant my parlay wish
         </button>
 
         {/* Mid ad */}
@@ -210,7 +216,7 @@ export default function Home() {
             <div className={styles.parlayCard}>
               <div className={styles.parlayHeader}>
                 <span className={styles.parlayTitle}>{legs.length}-Leg {league.toUpperCase()} Parlay</span>
-                <div style={{ textAlign: 'right' }}>
+                <div className={styles.parlayOddsStack}>
                   <div className={styles.parlayOddsLabel}>Parlay odds</div>
                   <div className={styles.parlayOddsVal}>
                     {oddsFormat === 'decimal'
@@ -254,7 +260,7 @@ export default function Home() {
                 <div className={styles.metricLabel}>Total return</div>
                 <div className={styles.metricVal}>${totalReturn}</div>
               </div>
-              <button className={styles.copyBtn} onClick={handleCopy}>
+              <button type="button" className={styles.copyBtn} onClick={handleCopy}>
                 {copied ? '✓ Copied!' : '⎘ Copy'}
               </button>
             </div>
@@ -271,6 +277,7 @@ export default function Home() {
         </p>
       </div>
     </main>
+    </>
   )
 }
 
@@ -294,42 +301,68 @@ function SliderSection({
   const parse = (s: string) => parseInt(s.replace(/[^0-9\-]/g, ''), 10)
 
   return (
-    <div style={{ marginBottom: 16 }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-        <span style={{ fontSize: 12, color: 'var(--color-text-secondary)', fontWeight: 500 }}>{label}</span>
-        <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--color-text-secondary)', cursor: 'pointer', userSelect: 'none' }}>
-          <input type="checkbox" checked={unlimited} onChange={e => onUnlimitedChange(e.target.checked)} style={{ width: 15, height: 15, accentColor: '#E24B4A' }} />
+    <div className={styles.sliderBlock}>
+      <div className={styles.sliderHead}>
+        <span className={styles.sliderLabel}>{label}</span>
+        <label className={styles.unlimitedRow}>
+          <input type="checkbox" checked={unlimited} onChange={(e) => onUnlimitedChange(e.target.checked)} />
           Unlimited max
         </label>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-        <ValBox label="Min" value={fmt(valueMin)} onCommit={s => {
-          let v = parse(s); if (isNaN(v)) return
-          v = Math.max(min, Math.min(unlimited ? max : valueMax, v))
-          onMinChange(v)
-        }} />
-        <ValBox label="Max" value={unlimited ? '∞' : fmt(valueMax)} disabled={unlimited} onCommit={s => {
-          let v = parse(s); if (isNaN(v)) return
-          v = Math.max(valueMin, v)
-          onMaxChange(v)
-        }} />
-      </div>
-      <div style={{ position: 'relative', height: 22, marginBottom: 4 }}>
-        <div style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', width: '100%', height: 4, borderRadius: 2, background: 'var(--color-border)' }} />
-        <div style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: `${loP}%`, width: `${hiP - loP}%`, height: 4, borderRadius: 2, background: '#E24B4A' }} />
-        <input type="range" min={min} max={max} step={step} value={valueMin}
-          onChange={e => onMinChange(Math.min(parseInt(e.target.value), unlimited ? max : valueMax))}
-          style={{ position: 'absolute', width: '100%', height: 4, top: '50%', transform: 'translateY(-50%)', appearance: 'none', background: 'transparent', pointerEvents: 'none', margin: 0 } as React.CSSProperties}
+      <div className={styles.valRow}>
+        <ValBox
+          label="Min"
+          value={fmt(valueMin)}
+          onCommit={(s) => {
+            let v = parse(s)
+            if (isNaN(v)) return
+            v = Math.max(min, Math.min(unlimited ? max : valueMax, v))
+            onMinChange(v)
+          }}
         />
-        <input type="range" min={min} max={max} step={step} value={Math.min(valueMax, max)}
+        <ValBox
+          label="Max"
+          value={unlimited ? '∞' : fmt(valueMax)}
           disabled={unlimited}
-          onChange={e => onMaxChange(Math.max(parseInt(e.target.value), valueMin))}
-          style={{ position: 'absolute', width: '100%', height: 4, top: '50%', transform: 'translateY(-50%)', appearance: 'none', background: 'transparent', pointerEvents: 'none', margin: 0, opacity: unlimited ? 0.35 : 1 } as React.CSSProperties}
+          onCommit={(s) => {
+            let v = parse(s)
+            if (isNaN(v)) return
+            v = Math.max(valueMin, v)
+            onMaxChange(v)
+          }}
         />
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <span style={{ fontSize: 11, color: 'var(--color-text-tertiary)' }}>{endMin}</span>
-        <span style={{ fontSize: 11, color: 'var(--color-text-tertiary)' }}>{endMax}</span>
+      <div className={styles.trackWrap}>
+        <div className={styles.trackBg} />
+        <div
+          className={styles.trackFill}
+          style={{ left: `${loP}%`, width: `${Math.max(hiP - loP, 0)}%` }}
+        />
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={valueMin}
+          onChange={(e) =>
+            onMinChange(Math.min(parseInt(e.target.value, 10), unlimited ? max : valueMax))
+          }
+          className={styles.rangeInput}
+        />
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={Math.min(valueMax, max)}
+          disabled={unlimited}
+          onChange={(e) => onMaxChange(Math.max(parseInt(e.target.value, 10), valueMin))}
+          className={`${styles.rangeInput} ${unlimited ? styles.rangeInputDisabled : ''}`}
+        />
+      </div>
+      <div className={styles.rangeEnds}>
+        <span>{endMin}</span>
+        <span>{endMax}</span>
       </div>
     </div>
   )
@@ -347,20 +380,24 @@ function ValBox({ label, value, disabled, onCommit }: { label: string; value: st
   }, [value, disabled])
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, opacity: disabled ? 0.4 : 1 }}>
-      <span style={{ fontSize: 11, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '.5px', color: 'var(--color-text-secondary)' }}>{label}</span>
+    <div className={`${styles.valCol} ${disabled ? styles.valColDisabled : ''}`}>
+      <span className={styles.valColLabel}>{label}</span>
       <input
         ref={inputRef}
         type="text"
+        className={styles.valInput}
         defaultValue={disabled ? '∞' : value}
         disabled={disabled}
-        onFocus={() => { isFocused.current = true }}
-        onBlur={e => {
+        onFocus={() => {
+          isFocused.current = true
+        }}
+        onBlur={(e) => {
           isFocused.current = false
           onCommit(e.target.value)
         }}
-        onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
-        style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-primary)', border: '1.5px solid var(--color-border)', borderRadius: 6, background: 'var(--color-bg-secondary)', padding: '3px 8px', width: 90, textAlign: 'center', outline: 'none', fontFamily: "'DM Sans', sans-serif", cursor: disabled ? 'default' : 'text' }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') (e.target as HTMLInputElement).blur()
+        }}
       />
     </div>
   )
