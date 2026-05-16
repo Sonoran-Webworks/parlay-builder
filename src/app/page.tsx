@@ -85,7 +85,7 @@ export default function Home() {
         {/* Header */}
         <div className={styles.header}>
           <div>
-            <h2 className={styles.title}>Parlay Builder</h2>
+            <h2 className={styles.title}>Summon A Parlay</h2>
             <p className={styles.sub}>Random prop parlay generator</p>
           </div>
           <span className={styles.badge}>For entertainment</span>
@@ -199,8 +199,9 @@ export default function Home() {
 
         {/* Generate button */}
         <button type="button" className={styles.genBtn} onClick={handleGenerate}>
-          <span aria-hidden>🧞</span>
-          Grant my parlay wish
+          <span aria-hidden>✨</span>
+          Rub The Lamp
+          <span aria-hidden>✨</span>
         </button>
 
         {/* Mid ad */}

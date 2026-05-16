@@ -62,7 +62,7 @@ function GenieHeroPoster() {
   return (
     <div className="relative flex w-full flex-1 justify-center lg:justify-end lg:pr-2">
       <div className="relative w-full max-w-[min(560px,94vw)] lg:max-w-[min(580px,48vw)]">
-        <div className="relative mx-auto aspect-[689/930] w-full min-h-[min(38vh,300px)] max-h-[min(68vh,560px)] sm:min-h-[min(48vh,400px)] sm:max-h-[min(74vh,640px)] md:min-h-[min(56vh,500px)] md:max-h-[min(82vh,760px)]">
+        <div className="relative mx-auto aspect-[689/930] w-full max-h-[min(44vw,220px)] min-h-[160px] sm:min-h-[min(48vh,400px)] sm:max-h-[min(74vh,640px)] md:min-h-[min(56vh,500px)] md:max-h-[min(82vh,760px)]">
           <div
             className="absolute inset-0 z-10"
             style={{
@@ -106,14 +106,14 @@ export default function GenieHero() {
         aria-hidden
       />
 
-      <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-8 px-4 pb-10 pt-8 max-sm:gap-6 sm:gap-12 sm:px-6 sm:pb-16 sm:pt-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:pb-20 lg:pt-16">
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-8 px-4 pb-6 pt-6 max-sm:gap-4 sm:gap-12 sm:px-6 sm:pb-16 sm:pt-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:pb-20 lg:pt-16">
         <div className="max-w-xl lg:pb-8">
           <p className="mb-3 font-sans text-xs font-semibold uppercase tracking-[0.35em] text-cyan-300/90">
             Parlay Genie
           </p>
           <motion.h1
             id="genie-hero-heading"
-            className={`font-display text-5xl leading-[0.95] tracking-[0.06em] text-white sm:text-6xl md:text-7xl ${reduce ? '' : 'animate-flicker'}`}
+            className={`font-display text-4xl leading-[0.95] tracking-[0.06em] text-white min-[480px]:text-5xl sm:text-6xl md:text-7xl ${reduce ? '' : 'animate-flicker'}`}
             style={{
               textShadow:
                 '0 0 20px rgba(34,211,238,0.5), 0 0 48px rgba(168,85,247,0.35), 0 0 4px rgba(255,255,255,0.8)',
@@ -129,7 +129,7 @@ export default function GenieHero() {
             </span>
           </motion.h1>
           <motion.div
-            className="mt-8 flex flex-wrap gap-3"
+            className="mt-5 flex flex-wrap gap-3 sm:mt-8"
             initial={reduce ? false : { opacity: 0, y: 12 }}
             animate={reduce ? {} : { opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.2 }}
