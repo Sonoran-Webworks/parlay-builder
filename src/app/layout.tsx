@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: 'The Parlay Genie – Random Prop Parlay Generator',
   description: 'Generate random sports prop parlays for MLB, NFL, NBA, and NHL. For entertainment purposes only.',
   keywords: ['parlay', 'sports betting', 'prop bets', 'parlay generator', 'MLB', 'NFL', 'NBA', 'NHL'],
+  verification: {
+    google: 'jh71vtzM3gp0LnXrP0R3-v9JrMX-KgA7K-UPXqiNKY4',
+  },
   openGraph: {
     title: 'The Parlay Genie',
     description: 'Generate random sports prop parlays. For entertainment only.',
